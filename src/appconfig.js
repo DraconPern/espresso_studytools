@@ -3,7 +3,7 @@ const config = {
   ESPRESSOWEB_URL: "https://www.espressomedical.com",
   ESPRESSOAPI_URL: "https://api.espressomedical.com",
   CLIENT_ID: "770e75ab-5d64-4a21-82b0-8ec20fc7dcef",
-  CALLBACK_URL: "https://hicap.frontmotion.com/espresso/studytools"
+  CALLBACK_URL: "https://studytools.espressomedical.com"
 }
 
 const localconfig = {
