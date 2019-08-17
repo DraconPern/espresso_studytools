@@ -7,7 +7,7 @@ import appconfig from '../appconfig'
 const config = {
   url: appconfig.ESPRESSOWEB_URL +"/oauth2/authorize",
   client: appconfig.CLIENT_ID,
-  redirect: "http://127.0.0.1:8888",
+  redirect: appconfig.CALLBACK_URL,
   scope: "",
   width: 400, // Width (in pixels) of login popup window. Optional, default: 400
   height: 400 // Height (in pixels) of login popup window. Optional, default: 400
