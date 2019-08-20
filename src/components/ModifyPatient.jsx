@@ -13,6 +13,7 @@ class ModifyPatient extends React.Component {
       PatientID: props.PatientID,
       modified: false,
       modifing: false,
+      progress: '',
       checks: 0
     }
 
@@ -25,6 +26,7 @@ class ModifyPatient extends React.Component {
   checkStatus(modifyStudyQueueId) {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify/' + modifyStudyQueueId, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
+      this.setState(() => ({progress: result})
       /*  if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
         this.setState(() => ({ modified: true, modifing: false }));
         clearInterval(this.interval);
@@ -63,7 +65,7 @@ class ModifyPatient extends React.Component {
   render() {
     if(this.state.modifing)
     {
-      return <div>Modifying</div>
+      return <div>Modifying: {this.state.progress}</div>
     } else {
       if (this.state.modified) {
         return <div>Modified Study</div>
