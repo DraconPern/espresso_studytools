@@ -12,9 +12,10 @@ class ModifyPatient extends React.Component {
       PatientName: props.PatientName,
       PatientID: props.PatientID,
       modified: false,
-      modifing: false,
+      modifying: false,
       progress: '',
-      checks: 0
+      checks: 0,
+      NumberOfStudyRelatedInstances: 0
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -26,29 +27,30 @@ class ModifyPatient extends React.Component {
   checkStatus(modifyStudyQueueId) {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify/' + modifyStudyQueueId, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
-      this.setState(() => ({progress: result})
-      /*  if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
-        this.setState(() => ({ modified: true, modifing: false }));
+      console.log(result);
+      this.setState(() => ({progress: result.data.count}));
+        if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
+        this.setState(() => ({ modified: true, modifying: false }));
         clearInterval(this.interval);
       }
 
       if(this.state.checks > 30)
       {
         clearInterval(this.interval);
-        this.setState(() => ({ modified: false, modifing: false }));
+        this.setState(() => ({ modified: false, modifying: false }));
       }
 
-      this.setState(() => ({ checks: this.state.checks + 1 })); */
+      this.setState(() => ({ checks: this.state.checks + 1 }));
     })
   }
   handleClick() {
-    this.setState(() => ({ modifing: true }))
+    this.setState(() => ({ modifying: true }))
     request.post(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify', {PatientName: this.state.PatientName, PatientID: this.state.PatientID}, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
-      this.interval = setInterval(() => this.checkStatus(result.data.modifyStudyQueueId) , 1000);
+      this.interval = setInterval(() => this.checkStatus(result.data.modifyStudyQueueId) , 200);
     })
     .catch((err) => {
-      this.setState(() => ({ modifing: false }))
+      this.setState(() => ({ modifying: false }))
     });
   }
 
@@ -63,7 +65,7 @@ class ModifyPatient extends React.Component {
   }
 
   render() {
-    if(this.state.modifing)
+    if(this.state.modifying)
     {
       return <div>Modifying: {this.state.progress}</div>
     } else {
@@ -87,6 +89,7 @@ ModifyPatient.propTypes = {
   patientStudyId: PropTypes.string.isRequired,
   PatientName: PropTypes.string.isRequired,
   PatientID: PropTypes.string.isRequired,
+  NumberOfStudyRelatedInstances: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = state => {

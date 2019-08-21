@@ -10,7 +10,7 @@ import appconfig from '../appconfig'
 class StudyOperations extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {loading: true, study: null};
+    this.state = {loading: true, study: null, token: null};
   }
   componentDidMount () {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}})
@@ -29,10 +29,10 @@ class StudyOperations extends React.Component {
           <div>
             <h2>Current Study</h2>
             <StudyInfo {...this.state.study} />
-            <h3>Delete</h3>
-            <DeleteButton patientStudyId={this.state.study.patientStudyId} />
             <h3>Modify</h3>
             <ModifyPatient {...this.state.study}/>
+            <h3>Delete</h3>
+            <DeleteButton patientStudyId={this.state.study.patientStudyId} />
           </div>
         )
       } else {
@@ -45,7 +45,7 @@ class StudyOperations extends React.Component {
 }
 
 StudyOperations.propTypes = {
-  token: PropTypes.string.isRequired,
+  //token: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => {
