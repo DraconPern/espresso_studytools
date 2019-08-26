@@ -14,8 +14,7 @@ class ModifyPatient extends React.Component {
       modified: false,
       modifying: false,
       progress: '',
-      progress_graphics: 0,
-      NumberOfStudyRelatedInstances: 0
+      progress_graphics: 0,      
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -27,14 +26,14 @@ class ModifyPatient extends React.Component {
   checkStatus(modifyStudyQueueId) {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify/' + modifyStudyQueueId, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
-      var display_string = result.data.count + '/' + this.props.NumberOfStudyRelatedInstances + 'd' + this.props.progress_graphics;
-      if(this.props.progress_graphics % 4 == 0)
+      var display_string = result.data.count + '/' + this.props.NumberOfStudyRelatedInstances;
+      if(this.state.progress_graphics % 4 == 0)
         display_string = '| ' + display_string;
-      else if(this.props.progress_graphics % 4 == 1)
+      else if(this.state.progress_graphics % 4 == 1)
         display_string = '/ ' + display_string;
-      else if(this.props.progress_graphics % 4 == 2)
+      else if(this.state.progress_graphics % 4 == 2)
         display_string = '- ' + display_string;
-      else if(this.props.progress_graphics % 4 == 3)
+      else if(this.state.progress_graphics % 4 == 3)
         display_string = '\\ ' + display_string;
 
       this.setState(() => ({progress: display_string}));
