@@ -28,7 +28,7 @@ class ModifyPatient extends React.Component {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify/' + modifyStudyQueueId, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
       console.log(result);
-      this.setState(() => ({progress: result.data.count}));
+      this.setState(() => ({progress: result.data.count + '/' this.props.NumberOfStudyRelatedInstances}));
         if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
         this.setState(() => ({ modified: true, modifying: false }));
         clearInterval(this.interval);
