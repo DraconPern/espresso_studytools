@@ -14,7 +14,7 @@ class ModifyPatient extends React.Component {
       modified: false,
       modifying: false,
       progress: '',
-      checks: 0,
+      progress_graphics: 0,
       NumberOfStudyRelatedInstances: 0
     }
 
@@ -27,21 +27,24 @@ class ModifyPatient extends React.Component {
   checkStatus(modifyStudyQueueId) {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify/' + modifyStudyQueueId, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
-      console.log(result);
-      console.log(this.props.NumberOfStudyRelatedInstances);
-      this.setState(() => ({progress: result.data.count + '/' + this.props.NumberOfStudyRelatedInstances}));
-        if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
+      var display_string = result.data.count + '/' + this.props.NumberOfStudyRelatedInstances;
+      if(this.props.progress_graphics % 4 == 0)
+        display_string = '| ' + display_string;
+      else if(this.props.progress_graphics % 4 == 1)
+        display_string = '/ ' + display_string;
+      else if(this.props.progress_graphics % 4 == 2)
+        display_string = '- ' + display_string;
+      else if(this.props.progress_graphics % 4 == 3)
+        display_string = '\\ ' + display_string;
+
+      this.setState(() => ({progress: display_string}));
+
+      if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
         this.setState(() => ({ modified: true, modifying: false }));
         clearInterval(this.interval);
       }
-/*
-      if(this.state.checks > 30)
-      {
-        clearInterval(this.interval);
-        this.setState(() => ({ modified: false, modifying: false }));
-      }
 
-      this.setState(() => ({ checks: this.state.checks + 1 })); */
+      this.setState(() => ({ progress_graphics: this.state.progress_graphics + 1 }));
     })
   }
   handleClick() {
