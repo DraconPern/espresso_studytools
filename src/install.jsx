@@ -8,8 +8,7 @@ import "styles/base/_common.sass"  // Global styles
 import styles from "./app.sass"  // Css-module styles
 
 const Install = () => (
-  <div>
-    <p>Click the login button below to start using this tool</p>
+  <div>    
     <div><LoginLogoutButton /></div>
   </div>
 );

@@ -22,7 +22,13 @@ const LoginLogoutButton = ({ isLoggedIn, login, logout }) => {
       </div>
     )
   } else {
-    return <button type='button' onClick={login}>Login</button>
+    return (
+      <div>
+        <p>Click the login button below to start using this tool</p>
+        <button type='button' onClick={login}>Login</button>
+      </div>
+    )
+
   }
 }
 
