@@ -15,12 +15,10 @@ const Routes = () => (
   <Provider store={configureStore(window.__INITIAL_STATE__)}>
     <Router>
       <div>
-        <Switch>
         <Route exact path="/" component={Install}/>
         <Route path="/about" component={About}/>
         <Route path="/sample" component={Sample}/>
-        <Route path="/:patientStudyId" component={App}/>
-        </Switch>
+        <Route path="/:patientStudyId" component={App}/>        
       </div>
     </Router>
   </Provider>
