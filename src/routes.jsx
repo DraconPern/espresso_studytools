@@ -16,9 +16,9 @@ const Routes = () => (
     <Router>
       <div>
         <Route exact path="/" component={Install}/>
-        <Route path="/:patientStudyId" component={App}/>
         <Route path="/about" component={About}/>
         <Route path="/sample" component={Sample}/>
+        <Route path="/:patientStudyId" component={App}/>        
       </div>
     </Router>
   </Provider>
