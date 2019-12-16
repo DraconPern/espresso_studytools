@@ -3,8 +3,7 @@ import React from 'react';
 
 const About = () => (
   <div>
-    Hello
-    // <img src={dog} className="small-img"/>
+    <p>A tool for espressomedical that works on a study.  You can change the name and or ID.  You can delete a study.</p>
   </div>
 );
 
