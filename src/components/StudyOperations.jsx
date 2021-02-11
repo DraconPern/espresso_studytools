@@ -50,8 +50,7 @@ StudyOperations.propTypes = {
 }
 
 const mapStateToProps = state => {
-  return {
-    study: state.study,
+  return {    
     token: state.auth.token
   }
 }
