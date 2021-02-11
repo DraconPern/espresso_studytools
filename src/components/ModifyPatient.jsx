@@ -14,7 +14,7 @@ class ModifyPatient extends React.Component {
       modified: false,
       modifying: false,
       progress: '',
-      progress_graphics: 0,      
+      progress_graphics: 0,
     }
 
     // This binding is necessary to make `this` work in the callback
@@ -26,7 +26,7 @@ class ModifyPatient extends React.Component {
   checkStatus(modifyStudyQueueId) {
     request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/modify/' + modifyStudyQueueId, {headers: {'Authorization': "bearer " + this.props.token}})
     .then((result) => {
-      var display_string = result.data.count + '/' + this.props.NumberOfStudyRelatedInstances;
+      var display_string = result.data.count + '/' + this.props.totalcount;
       if(this.state.progress_graphics % 4 == 0)
         display_string = '| ' + display_string;
       else if(this.state.progress_graphics % 4 == 1)
@@ -38,7 +38,7 @@ class ModifyPatient extends React.Component {
 
       this.setState(() => ({progress: display_string}));
 
-      if(result.data.count == this.props.NumberOfStudyRelatedInstances) {
+      if(result.data.count == this.props.totalcount) {
         this.setState(() => ({ modified: true, modifying: false }));
         clearInterval(this.interval);
       }
@@ -92,7 +92,7 @@ ModifyPatient.propTypes = {
   patientStudyId: PropTypes.string.isRequired,
   PatientName: PropTypes.string.isRequired,
   PatientID: PropTypes.string.isRequired,
-  NumberOfStudyRelatedInstances: PropTypes.number.isRequired,
+  totalcount: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = state => {

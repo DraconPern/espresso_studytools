@@ -13,9 +13,11 @@ class StudyOperations extends React.Component {
     this.state = {loading: true, study: null, token: null};
   }
   componentDidMount () {
-    request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}})
-    .then((result) => {
-      this.setState(() => ({ loading: false, study: result.data.study }))
+    Promise.all([
+      request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}}),
+      request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/getStudyInstanceCount', {headers: {'Authorization': "bearer " + this.props.token}})])
+    .then((result1, result2) => {
+      this.setState(() => ({ loading: false, study: result1.data.study, totalcount: result2.count }))
     })
     .catch((err) => {
       this.setState(() => ({ loading: false, study: null}))
@@ -30,7 +32,7 @@ class StudyOperations extends React.Component {
             <h2>Current Study</h2>
             <StudyInfo {...this.state.study} />
             <h3>Modify</h3>
-            <ModifyPatient {...this.state.study}/>
+            <ModifyPatient {...this.state.study} totalcount={this.state.totalcount} />
             <h3>Delete</h3>
             <DeleteButton patientStudyId={this.state.study.patientStudyId} />
           </div>
@@ -51,7 +53,8 @@ StudyOperations.propTypes = {
 const mapStateToProps = state => {
   return {
     study: state.study,
-    token: state.auth.token
+    token: state.auth.token,
+    totalcount: state.totalcount
   }
 }
 
