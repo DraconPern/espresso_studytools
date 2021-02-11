@@ -16,7 +16,7 @@ class StudyOperations extends React.Component {
     Promise.all([request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}}),
       request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/getStudyInstanceCount', {headers: {'Authorization': "bearer " + this.props.token}})])
     .then(([result1, result2]) => {
-      this.setState(() => ({ loading: false, study: result1.data.study }))
+      this.setState(() => ({ loading: false, study: result1.data.study, totalcount: result2.data.count }))
     })
     .catch((err) => {
       this.setState(() => ({ loading: false, study: null}))
@@ -31,7 +31,7 @@ class StudyOperations extends React.Component {
             <h2>Current Study</h2>
             <StudyInfo {...this.state.study} />
             <h3>Modify</h3>
-            <ModifyPatient {...this.state.study}/>
+            <ModifyPatient {...this.state.study} totalcount={this.state.totalcount}/>
             <h3>Delete</h3>
             <DeleteButton patientStudyId={this.state.study.patientStudyId} />
           </div>
