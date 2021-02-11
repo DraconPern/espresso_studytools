@@ -32,7 +32,7 @@ class StudyOperations extends React.Component {
             <h2>Current Study</h2>
             <StudyInfo {...this.state.study} />
             <h3>Modify</h3>
-            <ModifyPatient {...this.state.study} totalcount={this.state.totalcount} />
+            <ModifyPatient {...this.state.study}/>
             <h3>Delete</h3>
             <DeleteButton patientStudyId={this.state.study.patientStudyId} />
           </div>

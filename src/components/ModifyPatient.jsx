@@ -92,7 +92,7 @@ ModifyPatient.propTypes = {
   patientStudyId: PropTypes.string.isRequired,
   PatientName: PropTypes.string.isRequired,
   PatientID: PropTypes.string.isRequired,
-  totalcount: PropTypes.number.isRequired,
+  // totalcount: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = state => {
