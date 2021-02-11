@@ -13,9 +13,10 @@ class StudyOperations extends React.Component {
     this.state = {loading: true, study: null, token: null};
   }
   componentDidMount () {
-    request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}})
-    .then((result) => {
-      this.setState(() => ({ loading: false, study: result.data.study }))
+    Promise.all([request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}}),
+      request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/getStudyInstanceCount', {headers: {'Authorization': "bearer " + this.props.token}})])
+    .then((result1, result2) => {
+      this.setState(() => ({ loading: false, study: result1.data.study }))
     })
     .catch((err) => {
       this.setState(() => ({ loading: false, study: null}))
