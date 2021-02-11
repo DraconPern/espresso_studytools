@@ -10,7 +10,7 @@ import appconfig from '../appconfig'
 class StudyOperations extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {loading: true, study: null, token: null};
+    this.state = {loading: true, study: null, token: null, totalcount: 0};
   }
   componentDidMount () {
     Promise.all([
@@ -20,7 +20,7 @@ class StudyOperations extends React.Component {
       this.setState(() => ({ loading: false, study: result1.data.study, totalcount: result2.count }))
     })
     .catch((err) => {
-      this.setState(() => ({ loading: false, study: null}))
+      this.setState(() => ({ loading: false, study: null, totalcount: 0}))
     });
   }
   render() {
