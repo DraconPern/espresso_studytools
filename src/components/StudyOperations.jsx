@@ -10,17 +10,15 @@ import appconfig from '../appconfig'
 class StudyOperations extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {loading: true, study: null, token: null, totalcount: 0};
+    this.state = {loading: true, study: null, token: null};
   }
   componentDidMount () {
-    Promise.all([
-      request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}}),
-      request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId + '/getStudyInstanceCount', {headers: {'Authorization': "bearer " + this.props.token}})])
-    .then((result1, result2) => {
-      this.setState(() => ({ loading: false, study: result1.data.study, totalcount: result2.data.count }))
+    request(appconfig.ESPRESSOAPI_URL + '/api/studies/' + this.props.patientStudyId, {headers: {'Authorization': "bearer " + this.props.token}})
+    .then((result) => {
+      this.setState(() => ({ loading: false, study: result.data.study }))
     })
     .catch((err) => {
-      this.setState(() => ({ loading: false, study: null, totalcount: 0}))
+      this.setState(() => ({ loading: false, study: null}))
     });
   }
   render() {
@@ -53,8 +51,7 @@ StudyOperations.propTypes = {
 const mapStateToProps = state => {
   return {
     study: state.study,
-    token: state.auth.token,
-    totalcount: state.totalcount
+    token: state.auth.token
   }
 }
 

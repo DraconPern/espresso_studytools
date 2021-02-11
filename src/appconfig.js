@@ -9,8 +9,8 @@ const config = {
 const localconfig = {
   ESPRESSOWEB_URL: "http://jenkinsubuntu1604",
   ESPRESSOAPI_URL: "http://jenkinsubuntu1604",
-  CLIENT_ID: "fa313f66-7727-4f9d-b353-76d72b918b7b",
-  CALLBACK_URL: "http://127.0.0.1:8888",
+  CLIENT_ID: "a0033871-e4f6-4d55-bc96-eaddb459e5d7",
+  CALLBACK_URL: "http://localhost:8888",
 }
 
 export default config
