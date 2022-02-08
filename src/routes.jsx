@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route
 } from 'react-router-dom';
 import App from './app';
@@ -18,7 +18,7 @@ const Routes = () => (
         <Route exact path="/" component={Install}/>
         <Route path="/about" component={About}/>
         <Route path="/sample" component={Sample}/>
-        <Route path="/:patientStudyId" component={App}/>        
+        <Route path="/:patientStudyId" component={App}/>
       </div>
     </Router>
   </Provider>
