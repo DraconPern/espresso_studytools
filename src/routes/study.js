@@ -163,7 +163,7 @@ export default function Study({patientStudyId}) {
       seterrormessage(err);
     })
 
-  });
+  }, [patientStudyId, token]);
 
   return (
     <React.Fragment>
