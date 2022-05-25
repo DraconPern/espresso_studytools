@@ -1,133 +1,70 @@
-### Study tool for Espresso Medical
+# Getting Started with Create React App
 
-React Based study tool for Espresso Medical.  This tool is a quick and simple tool.  It can edit patient name and id and delete study.  This project shows how to call api end points at api.espressomedical.com
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Available Scripts
 
+In the project directory, you can run:
 
-<p align="center">
-    <h3 align="center">Simple React Webpack Babel Starter Kit<br></h3>
-</p>
+### `npm start`
 
-[![CircleCI](https://circleci.com/gh/ReactJSResources/react-webpack-babel/tree/master.svg?style=svg)](https://circleci.com/gh/ReactJSResources/react-webpack-babel/tree/master)
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-[![Dependency Status](https://img.shields.io/david/ReactJSResources/react-webpack-babel.svg)](https://david-dm.org/dylang/npm-check)
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-Tired of complicated starters with 200MB of dependencies which are hard to understand and modify? This is for you!
+### `npm test`
 
-### What were using
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-* React 16
-* Webpack 3
-* React Router 4
-* SASS
-* Babel Cli
-* Hot Module Reloading
-* Jest 21 
-* Enzyme 3 for testing
+### `npm run build`
 
-### Features
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-* Simple src/index.jsx and src/index.css (local module css).
-* Webpack configuration for development (with hot reloading) and production (with minification).
-* CSS module loading, so you can include your css by ```import styles from './path/to.css';```.
-* Both js(x) and css hot loaded during development.
-* [Webpack Dashboard Plugin](https://github.com/FormidableLabs/webpack-dashboard) on dev server.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### To run
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-* You'll need to have [git](https://git-scm.com/) and [node](https://nodejs.org/en/) installed in your system.
-* Fork and clone the project:
+### `npm run eject`
 
-```
-git clone https://github.com/ReactJSResources/react-webpack-babel.git
-```
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-* Then install the dependencies:
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```
-npm install
-```
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-* Run development server:
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-```
-npm start
-```
+## Learn More
 
-* Or you can run development server with [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard):
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-```
-npm run dev
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Open the web browser to `http://localhost:8888/`
+### Code Splitting
 
-### To test
-To run unit tests:
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-```
-npm test
-```
+### Analyzing the Bundle Size
 
-Tests come bundled with:
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-* Jest
-* Enzyme
-* React Test Utils
-* React Test Renderer
+### Making a Progressive Web App
 
-### To build the production package
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-```
-npm run build
-```
+### Advanced Configuration
 
-### Running build locally
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-```
-npm run serve:build
-```
+### Deployment
 
-### Nginx Config
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-Here is an example Nginx config:
+### `npm run build` fails to minify
 
-```
-server {
-	# ... root and other options
-
-	gzip on;
-	gzip_http_version 1.1;
-	gzip_types text/plain text/css text/xml application/javascript image/svg+xml;
-
-	location / {
-		try_files $uri $uri/ /index.html;
-	}
-
-	location ~ \.html?$ {
-		expires 1d;
-	}
-
-	location ~ \.(svg|ttf|js|css|svgz|eot|otf|woff|jpg|jpeg|gif|png|ico)$ {
-		access_log off;
-		log_not_found off;
-		expires max;
-	}
-}
-```
-
-### Eslint
-There is a `.eslint.yaml` config for eslint ready with React plugin.
-
-To run linting, run:
-
-```
-npm run lint
-```
-
-### Notes on importing css styles
-* styles having /src/ in their absolute path considered part of the application and exported as local css modules.
-* other styles considered global styles used by components and included in the css bundle directly.
-
-### Contribute
-Please contribute to the project if you know how to make it better, including this README :)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
