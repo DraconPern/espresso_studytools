@@ -27,7 +27,7 @@ function DeleteStudy({patientStudyId}) {
       setsuccessmessage("");
       seterrormessage(err);
     })
-  });
+  }, [patientStudyId, token]);
 
   return (
     <React.Fragment>
@@ -61,7 +61,6 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
   const [patientid, setpatientid] = useState(original_patientid);
 
   const [totalcount, settotalcount] = useState(0);
-  const [count, setcount] = useState(0);
   const [modifyStudyQueueId, setmodifyStudyQueueId] = useState(null);
   const [modifytick, setmodifytick] = useState(0);
 
@@ -114,13 +113,13 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
         setmodifytick(modifytick + 1);
         setsuccessmessage(ratio + ' ' + tick);
 
-        if(response.count == totalcount) {
+        if(response.count === totalcount) {
           setsuccessmessage(ratio + " Done!");
           setmodifyStudyQueueId(null);
         }
       })
     }, 200);
-  }, [modifyStudyQueueId, modifytick]);
+  }, [token, patientStudyId, modifyStudyQueueId, totalcount, modifytick]);
 
   return (
     <React.Fragment>
@@ -160,7 +159,7 @@ export default function Study({patientStudyId}) {
       seterrormessage(err);
     })
 
-  }, [token]);
+  });
 
   return (
     <React.Fragment>
