@@ -27,7 +27,7 @@ function DeleteStudy({patientStudyId}) {
       setsuccessmessage("");
       seterrormessage(err);
     })
-  }, [patientStudyId, token]);
+  }, [token]);
 
   return (
     <React.Fragment>
@@ -82,7 +82,7 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
       setsuccessmessage("");
       seterrormessage(err);
     })
-  });
+  }, [token]);
 
   useEffect(() => {
     // do nothing if there's no modifyStudyQueueId
@@ -108,6 +108,8 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
             break;
           case 3:
             tick = '\\ ';
+            break;
+          default:
             break;
         }
         setmodifytick(modifytick + 1);
@@ -154,6 +156,8 @@ export default function Study({patientStudyId}) {
       var result = response.study;
 
       setstudy(result);
+      setsuccessmessage("");
+      seterrormessage("");
     })
     .catch(function(err) {
       seterrormessage(err);
