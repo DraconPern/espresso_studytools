@@ -13,7 +13,7 @@ function App() {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Layout content=<div>Please select a study first</div> />}/>
+        <Route path="/" element={<Layout content=<div>Please select a study first at <a href="https://www.espressomedical.com">Espresso Medical</a></div> />}/>
         <Route path="/study/:patientStudyId" element={<Layout content=<StudyParams /> />}/>
       </Routes>
     </HashRouter>

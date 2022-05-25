@@ -69,7 +69,8 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
     .then((res1) => manageResponse(res1))
     .then((response) => {
       settotalcount(response.count);
-      return fetch(process.env.REACT_APP_ESPRESSOAPI_URL + '/api/studies/' + patientStudyId + '/modify', { body: JSON.stringify({PatientName: patientname, PatientID: patientid}), headers: { Authorization: "Bearer " + token }, method: 'POST'})
+      console.log(patientid);
+      return fetch(process.env.REACT_APP_ESPRESSOAPI_URL + '/api/studies/' + patientStudyId + '/modify', { body: JSON.stringify({PatientName: patientname, PatientID: patientid}), headers: { Authorization: "Bearer " + token, 'Content-Type': 'application/json'}, method: 'POST'})
     })
     .then((res1) => manageResponse(res1))
     .then((response) => {
