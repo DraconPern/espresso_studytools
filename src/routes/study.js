@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useLocalStorage } from '../useLocalStorage';
 import manageResponse from '../manageResponse';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import AutoAlert from '../parts/AutoAlert';
 
 function DeleteStudy({patientStudyId}) {
-  const token = useSelector((state) => state.auth.token);
+  const [token] = useLocalStorage('token', "");
   const [errormessage, seterrormessage] = useState("");
   const [successmessage, setsuccessmessage] = useState("");
 
@@ -54,7 +54,7 @@ function DeleteStudy({patientStudyId}) {
 }
 
 function ModifyStudy({patientStudyId, original_patientname, original_patientid, }) {
-  const token = useSelector((state) => state.auth.token);
+  const [token] = useLocalStorage('token', "");
   const [errormessage, seterrormessage] = useState("");
   const [successmessage, setsuccessmessage] = useState("");
   const [patientname, setpatientname] = useState(original_patientname);
@@ -145,7 +145,7 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
 }
 
 export default function Study({patientStudyId}) {
-  const token = useSelector((state) => state.auth.token);
+  const [token] = useLocalStorage('token', "");
   const [study, setstudy] = useState(null);
   const [errormessage, seterrormessage] = useState("");
   const [successmessage, setsuccessmessage] = useState("");
