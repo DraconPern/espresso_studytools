@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useLocalStorage } from '../useLocalStorage';
 import manageResponse from '../manageResponse';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,14 +7,14 @@ import Modal from 'react-bootstrap/Modal';
 import AutoAlert from '../parts/AutoAlert';
 
 function DeleteStudy({patientStudyId}) {
-  const token = useSelector((state) => state.auth.token);
+  const [token] = useLocalStorage('token', "");
   const [errormessage, seterrormessage] = useState("");
   const [successmessage, setsuccessmessage] = useState("");
 
-  const [show, setShow] = useState(false);
+  const [showDeleteDlg, setShowDeleteDlg] = useState(false);
 
-  const handleClose = (reallydelete) => {setShow(false); if(reallydelete) deleteStudy(patientStudyId); }
-  const handleShow = () => setShow(true);
+  const handleClose = (reallydelete) => {setShowDeleteDlg(false); if(reallydelete) deleteStudy(patientStudyId); }
+  const handleShow = () => setShowDeleteDlg(true);
 
   const deleteStudy = useCallback((patientStudyId) => {
     fetch(process.env.REACT_APP_ESPRESSOAPI_URL + '/api/studies/' + patientStudyId, { headers: { Authorization: "Bearer " + token }, method: 'DELETE'})
@@ -39,7 +39,7 @@ function DeleteStudy({patientStudyId}) {
         <Button variant="danger" onClick={handleShow}>Delete Study</Button>
       </Form.Group>
     </Form>
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showDeleteDlg} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Really delete?</Modal.Title>
         </Modal.Header>
@@ -54,7 +54,7 @@ function DeleteStudy({patientStudyId}) {
 }
 
 function ModifyStudy({patientStudyId, original_patientname, original_patientid, }) {
-  const token = useSelector((state) => state.auth.token);
+  const [token] = useLocalStorage('token', "");
   const [errormessage, seterrormessage] = useState("");
   const [successmessage, setsuccessmessage] = useState("");
   const [patientname, setpatientname] = useState(original_patientname);
@@ -145,7 +145,7 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
 }
 
 export default function Study({patientStudyId}) {
-  const token = useSelector((state) => state.auth.token);
+  const [token] = useLocalStorage('token', "");
   const [study, setstudy] = useState(null);
   const [errormessage, seterrormessage] = useState("");
   const [successmessage, setsuccessmessage] = useState("");

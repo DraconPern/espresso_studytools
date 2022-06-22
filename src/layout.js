@@ -1,35 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 
-import { login, logout } from 'redux-implicit-oauth2';
+import { OAuth2Client, generateCodeVerifier } from '@badgateway/oauth2-client';
+import { useLocalStorage } from './useLocalStorage';
 
-const config = {
-  url: process.env.REACT_APP_ESPRESSOAPI_URL +"/oauth2/authorize",
-  client: process.env.REACT_APP_CLIENT_ID,
-  redirect: process.env.REACT_APP_CALLBACK_URL,
-  scope: "",
-  width: 400, // Width (in pixels) of login popup window. Optional, default: 400
-  height: 400 // Height (in pixels) of login popup window. Optional, default: 400
-}
+const client = new OAuth2Client({
+  server: process.env.REACT_APP_ESPRESSOWEB_URL,
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  tokenEndpoint: '/oauth2/access_token',
+  authorizationEndpoint: '/oauth2/authorize',
+});
 
 export default function Layout({content}) {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   const [currentuser, setcurrentuser] = useState("");
-  const token = useSelector((state) => state.auth.token);
-  const dispatch = useDispatch();
+  const [token, setToken] = useLocalStorage('token', "");
 
+  // oauth2 states
+  const [authState, setauthState] = useLocalStorage('authState', "");
+  const [code_verifier, setcode_verifier] = useLocalStorage('code_verifier', "");
+
+  // makes the JSX cleaner
   useEffect(() => {
-    if(token) {
+    if(token.length !== 0)
+      setisLoggedIn(true);
+    else
+      setisLoggedIn(false);
+  }, [token])
+
+  // read the user info, if it fails, go back to logged out state
+  useEffect(() => {
+    if(token.length !== 0) {
       fetch(process.env.REACT_APP_ESPRESSOAPI_URL + '/api/users', { headers: { Authorization: "Bearer " + token }})
       .then((res1) => res1.json())
-      .then((response) => setcurrentuser(response.user.name))
+      .then((response) => {
+        setcurrentuser(response.user.name);
+      })
+      .catch(() => {
+        // something went wrong, logout
+        setToken("");
+      })
     }
     else {
       setcurrentuser("");
     }
-  }, [token]);
+  }, [token, setToken]);
+
+  // this effect is used to read the redirect and then use the accesstoken url to get a token
+  useEffect(() => {
+    if(token.length !== 0)
+      return;
+
+    client.authorizationCode.getTokenFromCodeRedirect(
+      document.location,
+      {
+        redirectUri: process.env.REACT_APP_CALLBACK_URL,
+        state: authState,
+        codeVerifier: code_verifier,
+      }
+    )
+    .then((token) => {
+      setToken(token.accessToken);
+      document.location = authState;
+    })
+    .catch(() => {
+
+    })
+  }, [code_verifier, authState, token, setToken])
+
+  function login() {
+    // use the url as the oauth state
+    setauthState(document.location.href);
+    generateCodeVerifier()
+    .then((codeVerifier) => {
+      setcode_verifier(codeVerifier);
+      return client.authorizationCode.getAuthorizeUri({
+        redirectUri: process.env.REACT_APP_CALLBACK_URL,
+        state: document.location.href,
+        codeVerifier
+      });
+    })
+    .then((url) => {
+      document.location = url;
+    })
+  }
 
   return (
     <React.Fragment>
@@ -40,14 +95,14 @@ export default function Layout({content}) {
         <React.Fragment>
           <Container>
             <div>Welcome {currentuser}</div>
-            <Button onClick={() => dispatch(logout())}>Logout</Button>
+            <Button onClick={() => setToken("")}>Logout</Button>
           </Container>
         </React.Fragment>
       }
       {!isLoggedIn &&
         <React.Fragment>
           <Container>
-            <Button onClick={() => dispatch(login(config))}>Login</Button>
+            <Button onClick={() => login()}>Login</Button>
           </Container>
         </React.Fragment>
       }

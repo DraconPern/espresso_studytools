@@ -1,3 +1,7 @@
+# Espresso Studytools
+
+This is an app for Espresso Medical that let's the user modify a study or delete a study. No download needed. To use this app, it can be installed to your account by going to (the App Listing](https://www.espressomedical.com/marketplace/770e75ab-5d64-4a21-82b0-8ec20fc7dcef)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
