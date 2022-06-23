@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { OAuth2Client, generateCodeVerifier } from '@badgateway/oauth2-client';
 import { useLocalStorage } from './useLocalStorage';
+import { ToastContainer } from 'react-toastify';
 
 const client = new OAuth2Client({
   server: process.env.REACT_APP_ESPRESSOWEB_URL,
@@ -16,7 +17,7 @@ export default function Layout({content}) {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [currentuser, setcurrentuser] = useState("");
   const [token, setToken] = useLocalStorage('token', "");
-  const [, setSearchParams] = useSearchParams();  
+  const [, setSearchParams] = useSearchParams();
 
   // oauth2 states
   const [authState, setauthState] = useLocalStorage('authState', "");
@@ -97,6 +98,7 @@ export default function Layout({content}) {
       <Container>
         <h3>Espresso Studytool</h3>
       </Container>
+      <ToastContainer />
       {isLoggedIn &&
         <React.Fragment>
           <Container>

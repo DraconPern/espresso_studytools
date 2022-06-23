@@ -5,12 +5,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import AutoAlert from '../parts/AutoAlert';
+import { toast } from 'react-toastify';
 
 function DeleteStudy({patientStudyId}) {
   const [token] = useLocalStorage('token', "");
-  const [errormessage, seterrormessage] = useState("");
-  const [successmessage, setsuccessmessage] = useState("");
-
   const [showDeleteDlg, setShowDeleteDlg] = useState(false);
 
   const handleClose = (reallydelete) => {setShowDeleteDlg(false); if(reallydelete) deleteStudy(patientStudyId); }
@@ -20,20 +18,16 @@ function DeleteStudy({patientStudyId}) {
     fetch(process.env.REACT_APP_ESPRESSOAPI_URL + '/api/studies/' + patientStudyId, { headers: { Authorization: "Bearer " + token }, method: 'DELETE'})
     .then((res1) => manageResponse(res1))
     .then((response) => {
-      setsuccessmessage('study removed');
-      seterrormessage("");
+      toast.success('study removed');
     })
     .catch(function(err) {
-      setsuccessmessage("");
-      seterrormessage(err);
+      toast.error(err);
     })
   }, [token]);
 
   return (
     <React.Fragment>
     <h3>Delete Study</h3>
-    <AutoAlert variant="danger">{errormessage}</AutoAlert>
-    <AutoAlert variant="success">{successmessage}</AutoAlert>
     <Form>
       <Form.Group className="mb-3">
         <Button variant="danger" onClick={handleShow}>Delete Study</Button>
@@ -55,8 +49,7 @@ function DeleteStudy({patientStudyId}) {
 
 function ModifyStudy({patientStudyId, original_patientname, original_patientid, }) {
   const [token] = useLocalStorage('token', "");
-  const [errormessage, seterrormessage] = useState("");
-  const [successmessage, setsuccessmessage] = useState("");
+  const [progressmessage, setprogressmessage] = useState("");
   const [patientname, setpatientname] = useState(original_patientname);
   const [patientid, setpatientid] = useState(original_patientid);
 
@@ -77,11 +70,9 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
       //
       setmodifyStudyQueueId(response.modifyStudyQueueId);
       setmodifytick(0);
-      seterrormessage("");
     })
     .catch(function(err) {
-      setsuccessmessage("");
-      seterrormessage(err);
+      toast.error(err);
     })
   }, [token]);
 
@@ -114,10 +105,11 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
             break;
         }
         setmodifytick(modifytick + 1);
-        setsuccessmessage(ratio + ' ' + tick);
+        setprogressmessage(ratio + ' ' + tick);
 
         if(response.count === totalcount) {
-          setsuccessmessage(ratio + " Done!");
+          toast.success("Done!");
+          setprogressmessage(ratio + " Done!");
           setmodifyStudyQueueId(null);
         }
       })
@@ -127,8 +119,7 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
   return (
     <React.Fragment>
     <h3>Modify Study</h3>
-    <AutoAlert variant="danger">{errormessage}</AutoAlert>
-    <AutoAlert variant="success">{successmessage}</AutoAlert>
+    <AutoAlert variant="success">{progressmessage}</AutoAlert>
     <Form>
       <Form.Group className="mb-3">
         <Form.Label>Patient Name</Form.Label>
@@ -147,8 +138,6 @@ function ModifyStudy({patientStudyId, original_patientname, original_patientid, 
 export default function Study({patientStudyId}) {
   const [token] = useLocalStorage('token', "");
   const [study, setstudy] = useState(null);
-  const [errormessage, seterrormessage] = useState("");
-  const [successmessage, setsuccessmessage] = useState("");
 
   useEffect(() => {
     fetch(process.env.REACT_APP_ESPRESSOAPI_URL + '/api/studies/' + patientStudyId, {headers: {'Authorization': "bearer " + token}})
@@ -157,11 +146,9 @@ export default function Study({patientStudyId}) {
       var result = response.study;
 
       setstudy(result);
-      setsuccessmessage("");
-      seterrormessage("");
     })
     .catch(function(err) {
-      seterrormessage(err);
+      toast.error(err);
     })
 
   }, [patientStudyId, token]);
@@ -169,8 +156,6 @@ export default function Study({patientStudyId}) {
   return (
     <React.Fragment>
       <h3>Current Study</h3>
-      <AutoAlert variant="danger">{errormessage}</AutoAlert>
-      <AutoAlert variant="success">{successmessage}</AutoAlert>
       { study ? <div>
             <div>PatientName: {study.PatientName}</div>
             <div>Patient ID: {study.PatientID}</div>
