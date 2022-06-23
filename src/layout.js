@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { OAuth2Client, generateCodeVerifier } from '@badgateway/oauth2-client';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -16,6 +16,7 @@ export default function Layout({content}) {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [currentuser, setcurrentuser] = useState("");
   const [token, setToken] = useLocalStorage('token', "");
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // oauth2 states
   const [authState, setauthState] = useLocalStorage('authState', "");
@@ -65,11 +66,12 @@ export default function Layout({content}) {
     .then((token) => {
       setToken(token.accessToken);
       navigate(authState);
+      window.history.replaceState(window.history.state, '', '/studytools/#' + authState)
     })
     .catch(() => {
 
     })
-  }, [code_verifier, authState, token, setToken, navigate])
+  }, [code_verifier, authState, token, setToken, navigate, setSearchParams])
 
   const location = useLocation();
 
@@ -81,7 +83,7 @@ export default function Layout({content}) {
       setcode_verifier(codeVerifier);
       return client.authorizationCode.getAuthorizeUri({
         redirectUri: process.env.REACT_APP_CALLBACK_URL,
-        state: document.location.href,
+        state: location.pathname,
         codeVerifier
       });
     })
