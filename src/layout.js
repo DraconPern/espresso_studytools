@@ -69,7 +69,7 @@ export default function Layout({content}) {
     .catch(() => {
 
     })
-  }, [code_verifier, authState, token, setToken])
+  }, [code_verifier, authState, token, setToken, navigate])
 
   const location = useLocation();
 
