@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-
+import { useNavigate, useLocation } from "react-router-dom";
 import { OAuth2Client, generateCodeVerifier } from '@badgateway/oauth2-client';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -47,6 +47,8 @@ export default function Layout({content}) {
     }
   }, [token, setToken]);
 
+  let navigate = useNavigate();
+
   // this effect is used to read the redirect and then use the accesstoken url to get a token
   useEffect(() => {
     if(token.length !== 0)
@@ -62,16 +64,18 @@ export default function Layout({content}) {
     )
     .then((token) => {
       setToken(token.accessToken);
-      document.location = authState;
+      navigate(authState);
     })
     .catch(() => {
 
     })
   }, [code_verifier, authState, token, setToken])
 
+  const location = useLocation();
+
   function login() {
     // use the url as the oauth state
-    setauthState(document.location.href);
+    setauthState(location.pathname);
     generateCodeVerifier()
     .then((codeVerifier) => {
       setcode_verifier(codeVerifier);
