@@ -16,7 +16,7 @@ export default function Layout({content}) {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [currentuser, setcurrentuser] = useState("");
   const [token, setToken] = useLocalStorage('token', "");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();  
 
   // oauth2 states
   const [authState, setauthState] = useLocalStorage('authState', "");
